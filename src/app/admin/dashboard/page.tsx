@@ -12,7 +12,7 @@ export default function AdminDashboard() {
     <main className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
+        <TabsList className="">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="users">Users</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>

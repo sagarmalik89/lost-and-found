@@ -1,11 +1,10 @@
 // src/middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createClient } from "@upstash/redis";
-import { z } from "zod";
+import { Redis } from "@upstash/redis";
 
 // ----- Upstash Redis rate limiter -----
-const redis = createClient({
+const redis = new Redis({
   url: process.env.UPSTASH_REDIS_URL ?? "",
   token: process.env.UPSTASH_REDIS_TOKEN ?? "",
 });
