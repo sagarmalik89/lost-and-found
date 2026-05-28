@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Redis } from "@upstash/redis";
-
+import { z } from "zod";
 // ----- Upstash Redis rate limiter -----
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_URL ?? "",
