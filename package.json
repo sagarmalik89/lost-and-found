@@ -1,0 +1,45 @@
+{
+  "name": "lost-found",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
+    "@prisma/client": "^4.16.2",
+    "@pusher/push-notifications-web": "^1.1.0",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.19",
+    "@upstash/redis": "^1.38.0",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.10.0",
+    "jsonwebtoken": "^9.0.3",
+    "next": "16.2.6",
+    "next-auth": "^4.24.14",
+    "prisma": "^4.16.2",
+    "pusher": "^5.3.3",
+    "pusher-js": "^8.5.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.76.1",
+    "shadcn-ui": "^0.9.5",
+    "sharp": "^0.34.5",
+    "tesseract.js": "^7.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

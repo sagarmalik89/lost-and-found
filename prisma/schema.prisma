@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+ datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+ }
+
+ model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String?
+  name          String?
+  role          Role     @default(USER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  documents     Document[]
+  claims        Claim[]
+  messagesSent  Message[] @relation("MessagesSent")
+  messagesRecv  Message[] @relation("MessagesReceived")
+  notifications Notification[]
+ }
+
+ enum Role {
+  USER
+  MODERATOR
+  ADMIN
+ }
+
+ model Document {
+  id               String   @id @default(cuid())
+  type             String
+  holderPartial    String?
+  lastFourDigits   String?
+  locationFound    String?
+  dateFound       DateTime?
+  description      String?
+  originalImageUrl String?
+  maskedImageUrl   String?
+  ocrText          String?
+  status           DocumentStatus @default(PENDING)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  uploaderId       String
+  uploader         User   @relation(fields: [uploaderId], references: [id])
+  claims           Claim[]
+ }
+
+ enum DocumentStatus {
+  PENDING
+  VERIFIED
+  CLAIMED
+  REJECTED
+ }
+
+ model Claim {
+  id          String   @id @default(cuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id])
+  claimantId  String
+  claimant    User    @relation(fields: [claimantId], references: [id])
+  proofUrl    String?
+  status      ClaimStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+ }
+
+ enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+ }
+
+ model Message {
+  id          String   @id @default(cuid())
+  senderId    String
+  receiverId  String
+  content     String
+  createdAt   DateTime @default(now())
+  sender      User @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver    User @relation("MessagesReceived", fields: [receiverId], references: [id])
+ }
+
+ model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+  title       String
+  body        String
+  read        Boolean @default(false)
+  createdAt   DateTime @default(now())
+ }
+
+ model Report {
+  id          String   @id @default(cuid())
+  reporterId  String
+  reporter    User @relation(fields: [reporterId], references: [id])
+  documentId  String?
+  document    Document? @relation(fields: [documentId], references: [id])
+  reason      String
+  createdAt   DateTime @default(now())
+ }
+
+ model SavedSearch {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+  query       String
+  createdAt   DateTime @default(now())
+ }
