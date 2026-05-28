@@ -26,7 +26,7 @@ function validateCsrf(req: NextRequest): boolean {
   if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method ?? "")) {
     const header = req.headers.get("x-csrf-token");
     const cookie = req.cookies.get("csrfToken")?.value;
-    return header && cookie && header === cookie;
+    return !!(header && cookie && header === cookie);
   }
   return true;
 }
@@ -53,7 +53,7 @@ export const sanitizeBody = (schema: z.ZodSchema<any>, body: any) => {
 };
 
 export async function middleware(req: NextRequest) {
-  const ip = req.ip ?? req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
 
   // Rate limiting
   const allowed = await checkRateLimit(ip);

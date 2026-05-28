@@ -3,7 +3,7 @@ import React from "react";
 export function Table({ className = "", ...props }: React.HTMLAttributes<HTMLTableElement>) {
   return (
     <div className="relative w-full overflow-auto rounded-lg border border-slate-200 dark:border-slate-800">
-      <table className={`w-full caption-bottom text-sm ${className}`} ...props} />
+      <table className={`w-full caption-bottom text-sm ${className}`} {...props} />
     </div>
   );
 }

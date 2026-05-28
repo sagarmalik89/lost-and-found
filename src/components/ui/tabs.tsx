@@ -4,19 +4,19 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 // Simple Tabs implementation using HTML details/summary for demo purposes
-export function Tabs({ defaultValue, className, children }) {
+export function Tabs({ defaultValue, className, children }: { defaultValue?: string; className?: string; children: React.ReactNode }) {
   return (
     <div className={cn("space-y-2", className)}>{children}</div>
   );
 }
 
-export function TabsList({ className, children }) {
+export function TabsList({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
     <div className={cn("flex border-b", className)}>{children}</div>
   );
 }
 
-export function TabsTrigger({ value, children }) {
+export function TabsTrigger({ value, children }: { value: string; children: React.ReactNode }) {
   return (
     <button
       type="button"
@@ -28,7 +28,7 @@ export function TabsTrigger({ value, children }) {
   );
 }
 
-export function TabsContent({ value, children }) {
+export function TabsContent({ value, children }: { value: string; children: React.ReactNode }) {
   // In a real app you'd conditionally render based on the selected tab.
   // Here we just render the content directly.
   return <div className="p-4">{children}</div>;
