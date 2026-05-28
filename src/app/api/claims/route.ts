@@ -10,7 +10,7 @@ import { z } from "zod";
 const claimSchema = z.object({
   documentId: z.string().cuid(),
   proofFile: z.instanceof(File), // multipart form file
-  verificationAnswers: z.record(z.string()) // arbitrary Q&A
+  verificationAnswers: z.record(z.string(), z.string()) // arbitrary Q&A
 });
 
 export async function POST(req: Request) {
