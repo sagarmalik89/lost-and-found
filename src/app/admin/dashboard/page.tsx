@@ -1,7 +1,7 @@
 // src/app/admin/dashboard/page.tsx
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import UserManagement from "@/components/admin/UserManagement";
 import ReportList from "@/components/admin/ReportList";

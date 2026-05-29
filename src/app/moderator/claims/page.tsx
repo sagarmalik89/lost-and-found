@@ -1,9 +1,22 @@
-// src/app/moderator/claims/page.tsx
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/src/lib/auth";
 import prisma from "@/src/lib/prisma";
 import { redirect } from "next/navigation";
 import ClaimCard from "@/components/moderator/ClaimCard";
+import { type Claim as PrismaClaim } from "@prisma/client";
+
+// Define a type that includes the related fields we fetch
+type ClaimWithRelations = PrismaClaim & {
+  document: {
+    id: string;
+    type: string;
+  };
+  claimant: {
+    email: string;
+  };
+};
+
+
 
 export default async function ModeratorClaimsPage() {
   const session = await getServerSession(authOptions);
@@ -11,7 +24,7 @@ export default async function ModeratorClaimsPage() {
   const role = (session.user as any).role;
   if (role !== "MODERATOR" && role !== "ADMIN") redirect("/");
 
-  const pendingClaims = await prisma.claim.findMany({
+  const pendingClaims: ClaimWithRelations[] = await prisma.claim.findMany({
     where: { status: "PENDING" },
     include: {
       document: {
@@ -37,9 +50,9 @@ export default async function ModeratorClaimsPage() {
         </div>
       ) : (
         <div className="grid gap-4">
-          {pendingClaims.map((claim) => (
-            <ClaimCard key={claim.id} claim={claim} />
-          ))}
+            {pendingClaims.map((claim: ClaimWithRelations) => (
+              <ClaimCard key={claim.id} claim={claim} />
+            ))}
         </div>
       )}
     </div>
