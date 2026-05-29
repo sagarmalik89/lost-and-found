@@ -11,7 +11,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
     }
 
-    const role = (session.user as any).role;
+    const role = (session.user as { role?: string }).role;
     if (role !== "ADMIN" && role !== "MODERATOR") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -29,7 +29,7 @@ export async function GET() {
     });
 
     return NextResponse.json(reports);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Reports API error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
@@ -42,7 +42,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
     }
 
-    const role = (session.user as any).role;
+    const role = (session.user as { role?: string }).role;
     if (role !== "ADMIN" && role !== "MODERATOR") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -57,7 +57,7 @@ export async function DELETE(request: Request) {
     });
 
     return NextResponse.json({ success: true, message: "Report resolved" });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Reports action error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

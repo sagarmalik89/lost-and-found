@@ -9,7 +9,7 @@ type UserRole = "USER" | "MODERATOR" | "ADMIN";
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
-  const role = (session.user as any).role;
+  const role = (session.user as { role?: string }).role;
   if (role !== "ADMIN") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const users = await prisma.user.findMany({
@@ -28,11 +28,14 @@ export async function PATCH(request: Request) {
   const { userId, newRole } = await request.json() as { userId: string; newRole: UserRole };
   if (!userId || !newRole) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
 
-  const updated = await prisma.user.update({
-    where: { id: userId },
-    data: { role: newRole },
-    select: { id: true, email: true, role: true },
-  });
-
-  return NextResponse.json(updated);
+  try {
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: { role: newRole },
+      select: { id: true, email: true, role: true },
+    });
+    return NextResponse.json(updated);
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+  }
 }
